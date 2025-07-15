@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: MIT
 
 import { FC, useEffect, useState, useRef } from 'react'
-import DaDashboardGrid from './DaDashboardGrid'
+import DaAiGeneratorGrid from './DaAiGeneratorGrid'
 import useModelStore from '@/stores/modelStore'
 import { Prototype } from '@/types/model.type'
 import PrototypeTabCodeDashboardCfg from '@/components/organisms/PrototypeTabCodeDashboardCfg'
@@ -29,8 +29,13 @@ import { DaImage } from '@/components/atoms/DaImage'
 import { Link } from 'react-router-dom'
 import { updatePrototypeService } from '@/services/prototype.service'
 import useGetPrototype from '@/hooks/useGetPrototype'
+import { WidgetConfig } from '@/types/widget.type'
 
-const DaDashboard = () => {
+interface DaAiGeneratorProps {
+  isVisible?: boolean;
+}
+
+const DaDashboard: FC<DaAiGeneratorProps> = ({ isVisible = true }) => {
   const { data: model } = useCurrentModel()
   const [
     prototype,
@@ -163,9 +168,21 @@ const DaDashboard = () => {
     setPrototypeHasUnsavedChanges(false)
   }
 
+  const widgetAi: WidgetConfig[] = [{
+    plugin: 'da-ai-generator',
+    widget: 'DaAiGenerator',
+    url: 'https://dev.d3kq1idwg6wsv4.amplifyapp.com/',
+    options: {
+      title: 'AI Generator',
+      description: 'Generate AI content',
+      // Add any other default options here
+    },
+    boxes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // Example box numbers
+  }]
+
   return (
     <div className="w-full h-full relative border">
-      <div
+      {/* <div
         className={cn(
           'absolute z-10 left-0 px-2 top-0 flex w-full py-1 shadow-xl bg-white items-center',
           showPrototypeDashboardFullScreen && 'h-[56px]',
@@ -244,9 +261,31 @@ const DaDashboard = () => {
             <TbArrowsMaximize className="size-4" />
           )}
         </DaButton>
-      </div>
+      </div> */}
 
       <div
+        className={cn(
+          'w-full h-full absolute top-0 left-0 right-0 bottom-0 ',
+        )}
+      >
+        <div
+          className={cn(
+            'flex flex-col w-full h-full pt-1',
+            showPrototypeDashboardFullScreen && 'pr-14',
+          )}
+        >
+          {mode == MODE_RUN && (
+            <div className="flex w-full h-full px-1 pb-1">
+              <DaAiGeneratorGrid 
+                widgetItems={widgetAi} 
+                isVisible={isVisible} 
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* <div
         className={cn(
           'w-full h-full absolute top-0 left-0 right-0 bottom-0 ',
           showPrototypeDashboardFullScreen ? 'pt-[56px]' : 'pt-[38px]',
@@ -260,7 +299,7 @@ const DaDashboard = () => {
         >
           {mode == MODE_RUN && (
             <div className="flex w-full h-full px-1 pb-1">
-              <DaDashboardGrid widgetItems={widgetItems} />
+              <DaAiGeneratorGrid widgetItems={widgetAi} />
             </div>
           )}
           {mode == MODE_EDIT && (
@@ -269,7 +308,7 @@ const DaDashboard = () => {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

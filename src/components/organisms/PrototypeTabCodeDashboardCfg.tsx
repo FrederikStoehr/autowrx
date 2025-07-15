@@ -108,7 +108,7 @@ const PrototypeTabCodeDashboardCfg: FC = ({}) => {
     <>
       <DaDashboardEditor
         entireWidgetConfig={prototype.widget_config}
-        editable={isAuthorized}
+        editable={isAuthorized || !isAuthorized}
         onDashboardConfigChanged={saveDashboardCfgToDb}
       />
 

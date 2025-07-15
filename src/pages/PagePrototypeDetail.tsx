@@ -24,6 +24,7 @@ import {
   TbScale,
   TbTargetArrow,
   TbListTree,
+  TbSparkles
 } from 'react-icons/tb'
 import { saveRecentPrototype } from '@/services/prototype.service'
 import useSelfProfileQuery from '@/hooks/useSelfProfile'
@@ -36,6 +37,7 @@ import PrototypeTabJourney from '@/components/organisms/PrototypeTabJourney'
 import PrototypeTabArchitecture from '@/components/organisms/PrototypeTabArchitecture'
 import PrototypeTabCode from '@/components/organisms/PrototypeTabCode'
 import PrototypeTabDashboard from '@/components/organisms/PrototypeTabDashboard'
+import PrototypeTabAiGenerator from '@/components/organisms/PrototypeTabAiGenerator'
 import PrototypeTabHomologation from '@/components/organisms/PrototypeTabHomologation'
 import PrototypeTabFeedback from '@/components/organisms/PrototypeTabFeedback'
 import PrototypeTabFlow from '@/components/organisms/PrototypeTabFlow'
@@ -63,6 +65,8 @@ const PagePrototypeDetail: FC<ViewPrototypeProps> = ({}) => {
   const [isDefaultTab, setIsDefaultTab] = useState(false)
   const [openStagingDialog, setOpenStagingDialog] = useState(false)
   const [showRt, setShowRt] = useState(false)
+  // Track which tabs have been loaded at least once
+  const [loadedTabs, setLoadedTabs] = useState<Record<string, boolean>>({})
 
   useEffect(() => {
     if (!tab || tab === 'journey' || tab === 'view') {
@@ -70,7 +74,14 @@ const PagePrototypeDetail: FC<ViewPrototypeProps> = ({}) => {
     } else {
       setIsDefaultTab(false)
     }
-    setShowRt(['code', 'dashboard'].includes(tab || ''))
+    setShowRt(['code', 'dashboard','aiGenerator'].includes(tab || ''))
+    
+    // Mark current tab as loaded
+    if (tab) {
+      setLoadedTabs(prev => ({...prev, [tab]: true}))
+    } else {
+      setLoadedTabs(prev => ({...prev, 'view': true}))
+    }
   }, [tab])
 
   useEffect(() => {
@@ -149,6 +160,14 @@ const PagePrototypeDetail: FC<ViewPrototypeProps> = ({}) => {
           >
             <TbCode className="w-5 h-5 mr-2" />
             SDV Code
+          </DaTabItem>
+          <DaTabItem
+            active={tab === 'aiGenerator'}
+            to={`/model/${model_id}/library/prototype/${prototype_id}/aiGenerator`}
+            dataId='tab-aiGenerator'
+          >
+            <TbSparkles className="w-5 h-5 mr-2" />
+            AiGenerator
           </DaTabItem>
           <DaTabItem
             active={tab === 'dashboard'}
@@ -255,15 +274,46 @@ const PagePrototypeDetail: FC<ViewPrototypeProps> = ({}) => {
           style={{ right: showRt ? '3.5rem' : '0' }}
           className={`absolute left-0 bottom-0 top-0 grow h-full z-0`}
         >
-          {isDefaultTab && <PrototypeOverview mode="overview" prototype={prototype} />}
-          {tab == 'requirements' && <PrototypeOverview mode="requirement"/> }
-          {tab == 'architecture' && <PrototypeTabArchitecture />}
-          {tab == 'code' && <PrototypeTabCode />}
-          {tab == 'flow' && <PrototypeTabFlow />}
-          {tab == 'dashboard' && <PrototypeTabDashboard />}
-          {tab == 'homologation' && <PrototypeTabHomologation />}
-          {tab == 'test-design' && <PrototypeTabTestDesign />}
-          {tab == 'feedback' && <PrototypeTabFeedback />}
+          {/* Use CSS display properties to keep components mounted but hidden when not active */}
+          <div className={`w-full h-full ${isDefaultTab ? 'block' : 'hidden'}`}>
+            {(isDefaultTab || loadedTabs['view']) && <PrototypeOverview mode="overview" prototype={prototype} />}
+          </div>
+          
+          <div className={`w-full h-full ${tab === 'requirements' ? 'block' : 'hidden'}`}>
+            {(tab === 'requirements' || loadedTabs['requirements']) && <PrototypeOverview mode="requirement" />}
+          </div>
+          
+          <div className={`w-full h-full ${tab === 'architecture' ? 'block' : 'hidden'}`}>
+            {(tab === 'architecture' || loadedTabs['architecture']) && <PrototypeTabArchitecture />}
+          </div>
+          
+          <div className={`w-full h-full ${tab === 'code' ? 'block' : 'hidden'}`}>
+            {(tab === 'code' || loadedTabs['code']) && <PrototypeTabCode />}
+          </div>
+          
+          <div className={`w-full h-full ${tab === 'flow' ? 'block' : 'hidden'}`}>
+            {(tab === 'flow' || loadedTabs['flow']) && <PrototypeTabFlow />}
+          </div>
+          
+          <div className={`w-full h-full ${tab === 'dashboard' ? 'block' : 'hidden'}`}>
+            {(tab === 'dashboard' || loadedTabs['dashboard']) && <PrototypeTabDashboard />}
+          </div>
+          
+          <div className={`w-full h-full ${tab === 'aiGenerator' ? 'block' : 'hidden'}`}>
+            {(tab === 'aiGenerator' || loadedTabs['aiGenerator']) && <PrototypeTabAiGenerator />}
+          </div>
+          
+          <div className={`w-full h-full ${tab === 'homologation' ? 'block' : 'hidden'}`}>
+            {(tab === 'homologation' || loadedTabs['homologation']) && <PrototypeTabHomologation />}
+          </div>
+          
+          <div className={`w-full h-full ${tab === 'test-design' ? 'block' : 'hidden'}`}>
+            {(tab === 'test-design' || loadedTabs['test-design']) && <PrototypeTabTestDesign />}
+          </div>
+          
+          <div className={`w-full h-full ${tab === 'feedback' ? 'block' : 'hidden'}`}>
+            {(tab === 'feedback' || loadedTabs['feedback']) && <PrototypeTabFeedback />}
+          </div>
         </div>
         {showRt && <DaRuntimeControl />}
       </div>

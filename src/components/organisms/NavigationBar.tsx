@@ -136,7 +136,7 @@ const NavigationBar = ({}) => {
               <TbBuildingWarehouse size={22} />
             </Link>
           </DaTooltip>
-          {allowUseAgent && <ChatBox />}
+          {allowUseAgent || !allowUseAgent && <ChatBox />}
           {isAuthorized && (
             <DaMenu
               trigger={
