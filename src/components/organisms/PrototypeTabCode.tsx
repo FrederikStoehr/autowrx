@@ -27,6 +27,9 @@ import { useToast } from '../molecules/toaster/use-toast'
 import config from '@/configs/config'
 const CodeEditor = lazy(() => retry(() => import('../molecules/CodeEditor')))
 
+const pythonCodeDefault: string =
+    `def hello_world():\n    print('Hello, World!')`.toString();
+
 const PrototypeTabCodeApiPanel = lazy(() =>
   retry(() => import('./PrototypeTabCodeApiPanel')),
 )
@@ -53,6 +56,46 @@ const PrototypeTabCode: FC = ({}) => {
   const [isAuthorized] = usePermissionHook([PERMISSIONS.READ_MODEL, model?.id])
   const [isOpenVelocitasDialog, setIsOpenVelocitasDialog] = useState(false)
 
+  const aiGeneratorOriginUrl = 'https://dev.d3kq1idwg6wsv4.amplifyapp.com'; // Example origin of the React app
+  const aiGeneratorOriginUrlLocalHost = 'http://localhost:4200'; // Example origin of the React app
+
+  const postToIframe = () => {
+      const message = 'Hi from Window';
+      
+      try {
+          if (window.frames['aiGeneratorIframe' as keyof typeof window.frames]) {
+              window.frames['aiGeneratorIframe' as keyof typeof window.frames].postMessage(message, aiGeneratorOriginUrl);
+              window.frames['aiGeneratorIframe' as keyof typeof window.frames].postMessage(message, aiGeneratorOriginUrlLocalHost);
+              console.log('Message sent to aiGenerator iframe');
+          } else {
+              console.warn('aiGenerator iframe not found');
+          }
+      } catch (error) {
+          console.error('Error sending message to aiGenerator iframe:', error);
+      }
+  };
+
+  useEffect(() => {
+    const handleMessage = (event: any) => {
+        if (event.origin !== aiGeneratorOriginUrlLocalHost && event.origin !== aiGeneratorOriginUrl) {
+            return;
+        }
+
+        const cmd = JSON.parse(event.data);
+
+        console.log('Message received from aiGenerator iframe:', cmd);
+        
+        if (cmd.cmd === 'ai-code-update') {
+            console.log('Received code from aiGenerator iframe:', cmd.code);
+            setCode(cmd.code || '');
+            // setSavedCode(cmd.code || '');
+        }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
   useEffect(() => {
     let timer = setInterval(() => {
       setTicker((oldTicker) => oldTicker + 1)
@@ -61,6 +104,7 @@ const PrototypeTabCode: FC = ({}) => {
       if (timer) clearInterval(timer)
     }
   }, [])
+
   useEffect(() => {
     saveCodeToDb()
   }, [ticker])
@@ -77,6 +121,7 @@ const PrototypeTabCode: FC = ({}) => {
 
   const saveCodeToDb = async () => {
     if (code === savedCode) return
+    console.log('Save code to db', prototype?.id, code)
 
     let newPrototype = JSON.parse(JSON.stringify(prototype))
     newPrototype.code = code || ''
@@ -100,7 +145,7 @@ const PrototypeTabCode: FC = ({}) => {
     <div className="flex h-[calc(100%-0px)] bg-da-g w-full p-2 gap-2 bg-da-gray-light">
       <div className="flex h-full flex-[3] min-w-0 flex-col border-r bg-da-white rounded-md">
         <div className="flex min-h-12 w-full items-center justify-between">
-          {isAuthorized && (
+          {isAuthorized  && (
             <div className="flex mx-2 space-x-4">
               <DaPopup
                 state={[isOpenGenAI, setIsOpenGenAI]}
@@ -130,6 +175,19 @@ const PrototypeTabCode: FC = ({}) => {
                   </div>
                 </div>
               </DaPopup>
+
+              {/* <DaButton 
+                size="sm" 
+                onClick={() => {
+                  setCode(pythonCodeDefault);
+                  postToIframe();
+                  // setSavedCode(pythonCodeDefault); // Optionally update saved code to prevent auto-save from overwriting
+                }}
+              >
+                <BsStars className="mr-1" />
+                Update
+              </DaButton> */}
+
               <DaPopup
                 state={[isOpenVelocitasDialog, setIsOpenVelocitasDialog]}
                 trigger={

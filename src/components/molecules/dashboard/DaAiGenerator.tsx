@@ -172,6 +172,7 @@ const DaDashboard: FC<DaAiGeneratorProps> = ({ isVisible = true }) => {
     plugin: 'da-ai-generator',
     widget: 'DaAiGenerator',
     url: 'https://dev.d3kq1idwg6wsv4.amplifyapp.com/',
+    // url: 'http://localhost:4200//',
     options: {
       title: 'AI Generator',
       description: 'Generate AI content',
@@ -193,7 +194,7 @@ const DaDashboard: FC<DaAiGeneratorProps> = ({ isVisible = true }) => {
             <DaImage src="/imgs/logo-wide.png" className="object-contain" />
           </Link>
         )}
-        {isAuthorized || !isAuthorized && (
+        {isAuthorized  && (
           <div className="ml-2 flex w-full h-fit items-center px-1 justify-end">
             {mode == MODE_RUN && (
               <DaButton

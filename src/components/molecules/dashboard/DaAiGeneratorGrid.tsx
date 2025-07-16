@@ -122,13 +122,14 @@ const WidgetItem: FC<PropsWidgetItem> = ({
         allow="camera;microphone"
         onLoad={handleIframeLoad}
         title="AI Generator"
-        key="ai-generator-iframe" // Use a static key to prevent recreation
+        name="aiGeneratorIframe"
+        key="aiGeneratorIframe" // Use a static key to prevent recreation
       ></iframe>
     </div>
   )
 }
 
-const DaDashboardGrid: FC<DaDashboardGridProps> = ({ widgetItems, isVisible = true }) => {
+const DaAiGeneratorGrid: FC<DaDashboardGridProps> = ({ widgetItems, isVisible = true }) => {
   // const CELLS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const [showModal, setShowModal] = useState(false)
   const [payload, setPayload] = useState<any>()
@@ -228,4 +229,4 @@ const DaDashboardGrid: FC<DaDashboardGridProps> = ({ widgetItems, isVisible = tr
   )
 }
 
-export default DaDashboardGrid
+export default DaAiGeneratorGrid

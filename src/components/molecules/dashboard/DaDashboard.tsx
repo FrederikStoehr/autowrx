@@ -176,7 +176,7 @@ const DaDashboard = () => {
             <DaImage src="/imgs/logo-wide.png" className="object-contain" />
           </Link>
         )}
-        {isAuthorized || !isAuthorized && (
+        {isAuthorized  && (
           <div className="ml-2 flex w-full h-fit items-center px-1 justify-end">
             {mode == MODE_RUN && (
               <DaButton

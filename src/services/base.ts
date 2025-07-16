@@ -25,6 +25,14 @@ serverAxios.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+
+    if (!config.headers['Content-Type']) {
+      config.headers['Content-Type'] = 'application/json'
+      console.log(
+        `Setting Content-Type to application/json for request to ${config.url}`,
+      )
+    }
+
     return config
   },
   (error) => {

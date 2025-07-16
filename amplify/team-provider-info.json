@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-autowrxbeg01-dev-9fa72-authRole",
+      "UnauthRoleArn": "arn:aws:iam::440744216319:role/amplify-autowrxbeg01-dev-9fa72-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::440744216319:role/amplify-autowrxbeg01-dev-9fa72-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-autowrxbeg01-dev-9fa72-deployment",
+      "UnauthRoleName": "amplify-autowrxbeg01-dev-9fa72-unauthRole",
+      "StackName": "amplify-autowrxbeg01-dev-9fa72",
+      "StackId": "arn:aws:cloudformation:eu-central-1:440744216319:stack/amplify-autowrxbeg01-dev-9fa72/ba8824e0-6222-11f0-9ebf-0ae56e11a8e1",
+      "AmplifyAppId": "d32aoq171s1gi1"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d32aoq171s1gi1",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}
