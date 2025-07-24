@@ -12,7 +12,7 @@ import { WidgetConfig } from '@/types/widget.type'
 import DaPopup from '@/components/atoms/DaPopup'
 import { cn } from '@/lib/utils'
 
-interface DaDashboardGridProps {
+interface DaAiGeneratorGridProps {
   widgetItems: any[]
   appLog?: string
   isVisible?: boolean
@@ -129,11 +129,10 @@ const WidgetItem: FC<PropsWidgetItem> = ({
   )
 }
 
-const DaAiGeneratorGrid: FC<DaDashboardGridProps> = ({ widgetItems, isVisible = true }) => {
+const DaAiGeneratorGrid: FC<DaAiGeneratorGridProps> = ({ widgetItems, isVisible = true }) => {
   // const CELLS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const [showModal, setShowModal] = useState(false)
   const [payload, setPayload] = useState<any>()
-
   const [renderCell, setRenderCell] = useState<any[]>([])
 
   useEffect(() => {

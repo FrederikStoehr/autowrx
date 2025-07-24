@@ -83,10 +83,10 @@ const PrototypeTabCode: FC = ({}) => {
 
         const cmd = JSON.parse(event.data);
 
-        console.log('Message received from aiGenerator iframe:', cmd);
+        // console.log('Message received from aiGenerator iframe:', cmd);
         
         if (cmd.cmd === 'ai-code-update') {
-            console.log('Received code from aiGenerator iframe:', cmd.code);
+            console.log('Code from aiGenerator:', cmd.code);
             setCode(cmd.code || '');
             // setSavedCode(cmd.code || '');
         }

@@ -35,7 +35,7 @@ interface DaAiGeneratorProps {
   isVisible?: boolean;
 }
 
-const DaDashboard: FC<DaAiGeneratorProps> = ({ isVisible = true }) => {
+const DaAiGenerator: FC<DaAiGeneratorProps> = ({ isVisible = true }) => {
   const { data: model } = useCurrentModel()
   const [
     prototype,
@@ -171,8 +171,8 @@ const DaDashboard: FC<DaAiGeneratorProps> = ({ isVisible = true }) => {
   const widgetAi: WidgetConfig[] = [{
     plugin: 'da-ai-generator',
     widget: 'DaAiGenerator',
-    url: 'https://dev.d3kq1idwg6wsv4.amplifyapp.com/',
-    // url: 'http://localhost:4200//',
+    // url: 'https://dev.d3kq1idwg6wsv4.amplifyapp.com/',
+    url: 'http://localhost:4200//',
     options: {
       title: 'AI Generator',
       description: 'Generate AI content',
@@ -314,4 +314,4 @@ const DaDashboard: FC<DaAiGeneratorProps> = ({ isVisible = true }) => {
   )
 }
 
-export default DaDashboard
+export default DaAiGenerator

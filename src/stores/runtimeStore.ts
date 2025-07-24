@@ -32,6 +32,7 @@ const useRuntimeStore = create<RuntimeState & Actions>()(
     setActiveApis: (values) =>
       set((state) => {
         state.apisValue = values
+        // console.log('useRuntimeStore setActiveApis apisValue: ', values)
       })
   }))
 )
