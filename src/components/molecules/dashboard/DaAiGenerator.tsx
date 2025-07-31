@@ -178,7 +178,17 @@ const DaAiGenerator: FC<DaAiGeneratorProps> = ({ isVisible = true }) => {
       description: 'Generate AI content',
       // Add any other default options here
     },
-    boxes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // Example box numbers
+    boxes: [ 3, 4, 5,  8, 9, 10], // Example box numbers
+  },{
+    plugin: 'Terminal',
+    widget: 'Terminal',
+    url: 'https://store-be.digitalauto.tech/data/store-be/Terminal/latest/terminal/index.html',
+    options: {
+      title: 'Terminal',
+      description: 'Terminal',
+      // Add any other default options here
+    },
+    boxes: [1,2, 6,7], // Example box numbers
   }]
 
   return (
