@@ -178,7 +178,7 @@ const DaAiGenerator: FC<DaAiGeneratorProps> = ({ isVisible = true }) => {
       description: 'Generate AI content',
       // Add any other default options here
     },
-    boxes: [ 3, 4, 5,  8, 9, 10], // Example box numbers
+    boxes: [1,2,3, 6,7,8], // Example box numbers
   },{
     plugin: 'Terminal',
     widget: 'Terminal',
@@ -188,7 +188,7 @@ const DaAiGenerator: FC<DaAiGeneratorProps> = ({ isVisible = true }) => {
       description: 'Terminal',
       // Add any other default options here
     },
-    boxes: [1,2, 6,7], // Example box numbers
+    boxes: [ 4, 5,  9, 10], // Example box numbers
   }]
 
   return (
