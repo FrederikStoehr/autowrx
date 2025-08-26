@@ -168,6 +168,23 @@ const PrototypeTabCodeApiPanel: FC<PrototypeTabCodeApiPanelProps> = ({
       }
     })
 
+    // let listenForApis: any[] = []
+    // useList.forEach((item: any) => {
+    //     listenForApis.push(item.apiName)
+    // })
+
+    // console.log("DIGITAL.AUTO PrototypeTabCodeApiPanel listenForApis = ", listenForApis)
+
+    // if (listenForApis && listenForApis.length > 0) {
+    //     window.postMessage(
+    //       JSON.stringify({
+    //         cmd: "listen-for-apis",
+    //         apis: listenForApis,
+    //       }),
+    //       "*"
+    //     );
+    //   }
+
     setUseApis(useList)
   }, [code, activeModelApis])
 
